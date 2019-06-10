@@ -134,10 +134,15 @@ public class Main extends SimpleApplication
     initMaterials();
     initAudio();
     initCrossHairs();
-    player1 = (Node) assetManager.loadModel("Models/Elephant/Elephant.mesh.xml");
-    player1.setLocalScale(0.08f);
-    player1.setLocalTranslation(-20,1,0);
-    rootNode.attachChild(player1);
+
+    
+    elefante = new Node("Elefantes");
+    rootNode.attachChild(sceneModel);
+    
+    bulletAppState.getPhysicsSpace().add(landscape);
+    bulletAppState.getPhysicsSpace().add(player);
+    
+    rootNode.attachChild(elefante);
     
     rootNode.attachChild(sceneModel);
     bulletAppState.getPhysicsSpace().add(landscape);
@@ -240,7 +245,7 @@ public class Main extends SimpleApplication
  
       if (isPressed) { player.jump(new Vector3f(0,20f,0));}
     }
-    if(timer.getTimeInSeconds() > ultimoTempo + 5){
+   if(timer.getTimeInSeconds() > ultimoTempo + 5){
             ultimoTempo = timer.getTimeInSeconds();
             elefante.attachChild(makeElefante());
         }
@@ -280,7 +285,7 @@ public class Main extends SimpleApplication
         
         player1.setLocalTranslation(0,tpf,0);
         
-       /*for(Spatial s : elefante.getChildren()){
+       for(Spatial s : elefante.getChildren()){
             s.lookAt(cam.getLocation(),  Vector3f.UNIT_Y.normalize());
             s.rotate(0, (float) Math.PI , 0);
             Vector3f dir = s.getLocalTranslation().subtract(cam.getLocation()).normalize().negate();
@@ -292,7 +297,7 @@ public class Main extends SimpleApplication
        else{
            s.move(dir.x*elefVelocidade*tpf, 0, dir.z*elefVelocidade*tpf);
         }  
-        }*/
+        }
         cam.setLocation(player.getPhysicsLocation());
         listener.setLocation(cam.getLocation());
         listener.setRotation(cam.getRotation());
