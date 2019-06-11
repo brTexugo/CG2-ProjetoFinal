@@ -73,7 +73,6 @@ public class Main extends SimpleApplication
   Material stone_mat;
   Material floor_mat;
 
-  /** Prepare geometries and physical nodes for bricks and cannon balls. */
   private RigidBodyControl    brick_phy;
   private RigidBodyControl    ball_phy;
   private static final Sphere sphere;
@@ -156,7 +155,7 @@ public class Main extends SimpleApplication
     }
   };
     private void initAudio() {
-    /* gun shot sound is to be triggered by a mouse click. */
+    /* Som de tiro com o click do mouse */
     audio_gun = new AudioNode(assetManager, "Sound/Effects/Bang.wav", DataType.Buffer);
     audio_gun.setPositional(false);
     audio_gun.setLooping(false);
@@ -164,7 +163,7 @@ public class Main extends SimpleApplication
     rootNode.attachChild(audio_gun);
     
     audio_nature = new AudioNode(assetManager, "Sounds/sup1.ogg", DataType.Stream);
-    audio_nature.setLooping(true);  // activate continuous playing
+    audio_nature.setLooping(true);  // Som continuo de fundo
     audio_nature.setPositional(true);
     audio_nature.setVolume(3);
     rootNode.attachChild(audio_nature);
@@ -183,14 +182,13 @@ public class Main extends SimpleApplication
     Geometry ball_geo = new Geometry("cannon ball", sphere);
     ball_geo.setMaterial(stone_mat);
     rootNode.attachChild(ball_geo);
-    /** Position the cannon ball  */
     ball_geo.setLocalTranslation(cam.getLocation());
-    /** Make the ball physcial with a mass > 0.0f */
+    
     ball_phy = new RigidBodyControl(1f);
-    /** Add physical ball to physics space. */
+    
     ball_geo.addControl(ball_phy);
     bulletAppState.getPhysicsSpace().add(ball_phy);
-    /** Accelerate the physcial ball to shoot it. */
+    
     ball_phy.setLinearVelocity(cam.getDirection().mult(25));
   }
 
@@ -199,8 +197,8 @@ public class Main extends SimpleApplication
     guiFont = assetManager.loadFont("Interface/Fonts/Default.fnt");
     BitmapText ch = new BitmapText(guiFont, false);
     ch.setSize(guiFont.getCharSet().getRenderedSize() * 2);
-    ch.setText("+");        // fake crosshairs :)
-    ch.setLocalTranslation( // center
+    ch.setText("+");        
+    ch.setLocalTranslation( 
       settings.getWidth() / 2 - guiFont.getCharSet().getRenderedSize() / 3 * 2,
       settings.getHeight() / 2 + ch.getLineHeight() / 2, 0);
     guiNode.attachChild(ch);
