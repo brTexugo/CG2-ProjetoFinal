@@ -4,19 +4,13 @@ package mygame;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.collision.shapes.CollisionShape;
 import com.jme3.bullet.control.CharacterControl;
-
 import com.jme3.bullet.util.CollisionShapeFactory;
-
 import com.jme3.input.KeyInput;
-
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
-
 import com.jme3.math.ColorRGBA;
-
 import com.jme3.scene.Spatial;
-
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.TextureKey;
 import com.jme3.audio.AudioData.DataType;
@@ -28,15 +22,12 @@ import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.material.Material;
-import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.Texture;
-import com.jme3.texture.Texture.WrapMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +35,7 @@ import java.util.List;
     140841 - Gabriel Sant'Ana Vieira
     132204 - Rafael Rodrigues Banhos
  */
+
 public class Main extends SimpleApplication
         implements ActionListener {
   private AudioNode audio_gun;  
@@ -179,14 +171,14 @@ public class Main extends SimpleApplication
 
    public void makeCannonBall() {
   
-    Geometry ball_geo = new Geometry("cannon ball", sphere);
-    ball_geo.setMaterial(stone_mat);
-    rootNode.attachChild(ball_geo);
-    ball_geo.setLocalTranslation(cam.getLocation());
+    Geometry bola = new Geometry("cannon ball", sphere);
+    bola.setMaterial(stone_mat);
+    rootNode.attachChild(bola);
+    bola.setLocalTranslation(cam.getLocation());
     
     ball_phy = new RigidBodyControl(1f);
     
-    ball_geo.addControl(ball_phy);
+    bola.addControl(ball_phy);
     bulletAppState.getPhysicsSpace().add(ball_phy);
     
     ball_phy.setLinearVelocity(cam.getDirection().mult(25));
