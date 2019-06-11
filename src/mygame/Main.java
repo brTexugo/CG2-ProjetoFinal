@@ -37,11 +37,12 @@ import com.jme3.scene.shape.Sphere;
 import com.jme3.scene.shape.Sphere.TextureMode;
 import com.jme3.texture.Texture;
 import com.jme3.texture.Texture.WrapMode;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Example 9 - How to make walls and floors solid.
- * This collision code uses Physics and a custom Action Listener.
- * @author normen, with edits by Zathras
+/*
+    140841 - Gabriel Sant'Ana Vieira
+    132204 - Rafael Rodrigues Banhos
  */
 public class Main extends SimpleApplication
         implements ActionListener {
@@ -54,11 +55,14 @@ public class Main extends SimpleApplication
   private Vector3f walkDirection = new Vector3f();
   private boolean left = false, right = false, up = false, down = false;
 
-    
+  private double vida = 100;
+      
   private float elefVelocidade = 5f;
   
   private float ultimoTempo = 0f;
   private float dificuldadeT = 0f;
+  private final List<Vector3f> pElef = new ArrayList();
+  private int qtdElef = 0;
   
   private Vector3f camDir = new Vector3f();
   private Vector3f camLeft = new Vector3f();
@@ -71,27 +75,15 @@ public class Main extends SimpleApplication
 
   /** Prepare geometries and physical nodes for bricks and cannon balls. */
   private RigidBodyControl    brick_phy;
-  private static final Box    box;
   private RigidBodyControl    ball_phy;
   private static final Sphere sphere;
   private RigidBodyControl    floor_phy;
-  private static final Box    floor;
-
-  /** dimensions used for bricks and wall */
-  private static final float brickLength = 0.48f;
-  private static final float brickWidth  = 0.24f;
-  private static final float brickHeight = 0.12f;
-
+ 
   static {
     /** Initialize the cannon ball geometry */
     sphere = new Sphere(32, 32, 0.4f, true, false);
     sphere.setTextureMode(TextureMode.Projected);
-    /** Initialize the brick geometry */
-    box = new Box(brickLength, brickHeight, brickWidth);
-    box.scaleTextureCoordinates(new Vector2f(1f, .5f));
-    /** Initialize the floor geometry */
-    floor = new Box(10f, 0.1f, 5f);
-    floor.scaleTextureCoordinates(new Vector2f(3, 6));
+     
   }
 
 
@@ -134,7 +126,6 @@ public class Main extends SimpleApplication
     initMaterials();
     initAudio();
     initCrossHairs();
-
     
     elefante = new Node("Elefantes");
     rootNode.attachChild(sceneModel);
@@ -145,6 +136,14 @@ public class Main extends SimpleApplication
     rootNode.attachChild(elefante);
     
     rootNode.attachChild(sceneModel);
+    
+    pElef.add(new Vector3f(-80f, 1f, -30f));
+    pElef.add(new Vector3f(6f, 1f, 79f));
+    pElef.add(new Vector3f(60f, 1f, 85f));
+    pElef.add(new Vector3f(-3f, 1f, -150));
+    pElef.add(new Vector3f(40f, 1f, -140f));
+    pElef.add(new Vector3f(80f, 1f, -100f));
+    
     bulletAppState.getPhysicsSpace().add(landscape);
     bulletAppState.getPhysicsSpace().add(player);
   }
@@ -261,7 +260,8 @@ public class Main extends SimpleApplication
 
     Spatial elef = assetManager.loadModel("Models/Elephant/Elephant.mesh.xml");
     elef.scale(0.08f);
-    elef.setLocalTranslation(2.0f, 1f, 2f);
+    elef.setLocalTranslation(pElef.get(qtdElef%6)); 
+    qtdElef++;
     return elef;
   }
   @Override
@@ -282,8 +282,6 @@ public class Main extends SimpleApplication
             walkDirection.addLocal(camDir.negate());
         }
         player.setWalkDirection(walkDirection);
-        
-        player1.setLocalTranslation(0,tpf,0);
         
        for(Spatial s : elefante.getChildren()){
             s.lookAt(cam.getLocation(),  Vector3f.UNIT_Y.normalize());
